@@ -1,21 +1,20 @@
-
-const getAllTasks = (req,res)=>{
+const getAllTasks = (req, res) => {
     res.send('get all tasks')
 }
 
-const getSingleTask = (req,res)=>{
+const getSingleTask = (req, res) => {
     res.send('get single task')
 }
 
-const createTask = (req,res)=>{
+const createTask = (req, res) => {
     res.send('create task')
 }
 
-const editTask = (req,res)=>{
+const editTask = (req, res) => {
     res.send('edit task')
 }
 
-const deleteTask = (req,res)=>{
+const deleteTask = (req, res) => {
     res.send('delete task')
 }
 
