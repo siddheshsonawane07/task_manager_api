@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
 
-const connectDB = (url) => {
-  return mongoose.connect(url, { useUnifiedTopology: true }).then(() => {
-    console.log("Connection to database");
-  });
+const connectDB = async (url) => {
+  await mongoose.connect(url);
+  console.log("DB Connected");
 };
 
 module.exports = connectDB;
