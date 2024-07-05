@@ -52,7 +52,6 @@ Note: Change the apiBaseUrl to "http://localhost:3000/api/v1/tasks" at line no. 
 
 
 
-<br>
 ## APIs
 
 **GET /api/v1/tasks**: Fetches all tasks.
@@ -64,8 +63,6 @@ Note: Change the apiBaseUrl to "http://localhost:3000/api/v1/tasks" at line no. 
 **DELETE /api/v1/tasks/:id**: Deletes a task.
 
 
-
-<br>
 ## Technologies Used
 
 **Frontend**: React
@@ -73,8 +70,6 @@ Note: Change the apiBaseUrl to "http://localhost:3000/api/v1/tasks" at line no. 
 **Backend**: Express.js, MongoDB, Node.js
 
 
-
-<br>
 ## Contact
 
 For any inquiries, please contact Siddhesh Sonawane at siddheshsonawane07@gmail.com
