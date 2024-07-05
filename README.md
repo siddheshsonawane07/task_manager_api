@@ -2,7 +2,6 @@
 
 This project implements a Task Manager application with a frontend built using React and a backend created with Express.js, MongoDB, and Node.js.
 
-<br>
 
 ## Project Structure
 
@@ -12,7 +11,6 @@ The project is structured into two main directories:
 
 **backend/**: Contains the Express.js backend server.
 
-<br>
 
 ## Running the project locally
 
@@ -43,12 +41,11 @@ React application will be hosted on localhost:5173
 Note: Change the apiBaseUrl to "http://localhost:3000/api/v1/tasks" at line no. 5 in App.jsx in the react app
 
 
-<br>
 ## Deployment
 
-**Frontend**: Deployed using Netlify.
+**Frontend**: Deployed using Netlify. "https://sidtaskmanager.netlify.app"
 
-**Backend**: Deployed using Render.com.
+**Backend**: Deployed using Render.com.  "https://task-manager-api-0z4l.onrender.com/api/v1/tasks"
 
 
 
