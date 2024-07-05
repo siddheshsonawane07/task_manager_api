@@ -41,12 +41,13 @@ function App() {
 
     try {
       const response = await axios.post(apiBaseUrl, {
+        id: Math.floor(Math.random() * 1000),
         name: taskName,
-        completed: false, // Assuming you want new tasks to start as incomplete
+        completed: false,
       });
       console.log("Task created:", response.data.task);
-      setTaskName(""); // Clear input after successful submission
-      fetchTasks(); // Refresh task list after adding new task
+      setTaskName("");
+      fetchTasks();
     } catch (error) {
       console.error("Error creating task:", error);
       setErrorMessage("Failed to create task. Please try again.");
@@ -70,15 +71,12 @@ function App() {
       <h1>Task Manager</h1>
       <div className="form-container">
         <form onSubmit={handleSubmit}>
-          <label>
-            Task Name:
-            <input
-              type="text"
-              value={taskName}
-              onChange={handleInputChange}
-              required
-            />
-          </label>
+          <input
+            type="text"
+            value={taskName}
+            onChange={handleInputChange}
+            required
+          />
           <button type="submit">Add Task</button>
           {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
         </form>
