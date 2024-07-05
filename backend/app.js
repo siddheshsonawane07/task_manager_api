@@ -4,9 +4,10 @@ const app = express();
 const tasks = require("./routes/tasks");
 const connectDB = require("./db/connect");
 require("dotenv").config();
-
+const cors = require("cors");
 //middleware
 app.use(express.json());
+app.use(cors());
 
 //routes
 app.use("/api/v1/tasks", tasks);
