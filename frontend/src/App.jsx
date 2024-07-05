@@ -6,9 +6,8 @@ const apiBaseUrl = "http://localhost:3000/api/v1/tasks";
 
 function App() {
   const [tasks, setTasks] = useState([]);
-  const [newTask, setNewTask] = useState("");
-  const [editTaskId, setEditTaskId] = useState(null);
-  const [editTaskText, setEditTaskText] = useState("");
+  const [taskName, setTaskName] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     fetchTasks();
@@ -17,49 +16,50 @@ function App() {
   const fetchTasks = async () => {
     try {
       const response = await axios.get(apiBaseUrl);
+      console.log("Fetched tasks:", response.data);
       setTasks(response.data.tasks);
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
   };
 
-  const handleAddTask = async () => {
-    if (!newTask) return;
-    try {
-      const response = await axios.post(apiBaseUrl, { title: newTask });
-      setTasks([...tasks, response.data.task]);
-      setNewTask("");
-    } catch (error) {
-      console.error("Error adding task:", error);
-    }
-  };
-
   const handleDeleteTask = async (id) => {
     try {
       await axios.delete(`${apiBaseUrl}/${id}`);
-      setTasks(tasks.filter((task) => task._id !== id));
+      setTasks(tasks.filter((task) => task.id !== id));
     } catch (error) {
       console.error("Error deleting task:", error);
     }
   };
 
-  const handleEditTask = (id, title) => {
-    setEditTaskId(id);
-    setEditTaskText(title);
+  const handleInputChange = (event) => {
+    setTaskName(event.target.value);
   };
 
-  const handleUpdateTask = async () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
     try {
-      const response = await axios.patch(`${apiBaseUrl}/${editTaskId}`, {
-        title: editTaskText,
+      const response = await axios.post(apiBaseUrl, {
+        name: taskName,
+        completed: false, // Assuming you want new tasks to start as incomplete
       });
-      setTasks(
-        tasks.map((task) =>
-          task._id === editTaskId ? response.data.task : task
-        )
-      );
-      setEditTaskId(null);
-      setEditTaskText("");
+      console.log("Task created:", response.data.task);
+      setTaskName(""); // Clear input after successful submission
+      fetchTasks(); // Refresh task list after adding new task
+    } catch (error) {
+      console.error("Error creating task:", error);
+      setErrorMessage("Failed to create task. Please try again.");
+    }
+  };
+
+  const handleCheckboxChange = async (id, completed) => {
+    try {
+      const response = await axios.patch(`${apiBaseUrl}/${id}`, {
+        completed: !completed, // Toggle completed status
+      });
+      console.log("Task updated:", response.data.task);
+      fetchTasks(); // Refresh task list after updating task
     } catch (error) {
       console.error("Error updating task:", error);
     }
@@ -68,40 +68,37 @@ function App() {
   return (
     <div className="App">
       <h1>Task Manager</h1>
-      <div className="task-input">
-        <input
-          type="text"
-          value={newTask}
-          onChange={(e) => setNewTask(e.target.value)}
-          placeholder="Add a new task"
-        />
-        <button onClick={handleAddTask}>Add Task</button>
+      <div className="form-container">
+        <form onSubmit={handleSubmit}>
+          <label>
+            Task Name:
+            <input
+              type="text"
+              value={taskName}
+              onChange={handleInputChange}
+              required
+            />
+          </label>
+          <button type="submit">Add Task</button>
+          {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+        </form>
       </div>
       <ul className="task-list">
-        {tasks.map((task) => (
-          <li key={task._id}>
-            {editTaskId === task._id ? (
-              <div>
-                <input
-                  type="text"
-                  value={editTaskText}
-                  onChange={(e) => setEditTaskText(e.target.value)}
-                />
-                <button onClick={handleUpdateTask}>Update</button>
-              </div>
-            ) : (
-              <div>
-                {task.title}
-                <button onClick={() => handleEditTask(task._id, task.title)}>
-                  Edit
-                </button>
-                <button onClick={() => handleDeleteTask(task._id)}>
-                  Delete
-                </button>
-              </div>
-            )}
-          </li>
-        ))}
+        {tasks && tasks.length > 0 ? (
+          tasks.map((task) => (
+            <li key={task.id}>
+              <span>{task.name}</span>
+              <input
+                type="checkbox"
+                checked={task.completed}
+                onChange={() => handleCheckboxChange(task.id, task.completed)}
+              />
+              <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
+            </li>
+          ))
+        ) : (
+          <li>No tasks found</li>
+        )}
       </ul>
     </div>
   );

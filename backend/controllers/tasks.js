@@ -58,7 +58,7 @@ const editTask = async (req, res) => {
 const deleteTask = async (req, res) => {
   try {
     const { id } = req.params;
-    const task = await Task.findOneAndDelete({ id });
+    const task = await Task.findOneAndDelete({ id: parseInt(id) });
     if (!task) {
       return res.status(404).json({ message: `No task with id: ${id}` });
     }
